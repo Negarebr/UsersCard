@@ -1,17 +1,19 @@
-
-
+let limit = 30;
+let skip = 0;
 
 document.addEventListener('DOMContentLoaded', ()=>{
     const userContainerDiv = document.getElementById('user-container');
-    async function fetchUsers() {
-        const res = await fetch('https://dummyjson.com/users');
+    async function fetchUsers(limit, skip) {
+        const res = await fetch('https://dummyjson.com/users?limit=' + limit + '&skip=' + skip);
         const json = await res.json();
         Users(json.users);
     }
 
     const more = document.getElementById('more');
     more.addEventListener('click', ()=>{
-        fetchUsers();
+        skip = skip + limit;
+        limit += 30;
+        fetchUsers(limit, skip);
     });
 
     function Users(users) {
@@ -70,5 +72,5 @@ document.addEventListener('DOMContentLoaded', ()=>{
         });
     }
 
-    fetchUsers();
+    fetchUsers(limit, skip);
 });
